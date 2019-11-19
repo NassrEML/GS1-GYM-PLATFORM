@@ -1,4 +1,4 @@
-package Vista;
+package view;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
