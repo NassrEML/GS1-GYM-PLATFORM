@@ -1,4 +1,5 @@
 import control.DDBBConection;
+import model.Exercise;
 import model.User;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -129,6 +130,22 @@ public class DDBBConectionTest {
         assertEquals(password, u.getPassword());
         con.deleteUserByMail(mail);
         u=null;
+    }
+    
+    @Test
+    public void add_exercise() {
+        String title = "Ejercicio primero";
+        String description = "Se explica como será el primer ejercicio.";
+        String category = "Sin categoria";
+        String owner = "prueba@prueba.com";
+        con.addExercise(title, description, category, owner);
+        Exercise e = con.getExeciseByOwnerMail(owner);
+        assertEquals(title, e.getTitle());
+        assertEquals(description, e.getDescription());
+        assertEquals(category, e.getCategory());
+        assertEquals(owner, e.getOwner());
+        con.deleteExerciseByOwnerMail(owner);
+        e=null;
     }
     
 }

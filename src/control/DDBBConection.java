@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Exercise;
 import model.User;
 import view.VistaPrincipal;
 
@@ -106,6 +107,51 @@ public class DDBBConection {
             Logger.getLogger(DDBBConection.class.getName()).log(Level.SEVERE, null, ex);
         }
         return u;
+    }
+    
+    public void addExercise(String title, String description, String category, String owner) {
+        String sql = "INSERT INTO Exercise(Title, Description, Category, Owner) VALUES (?,?,?,?)";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, title);
+            ps.setString(2, description);
+            ps.setString(3, category);
+            ps.setString(4, owner);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DDBBConection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public Exercise getExeciseByOwnerMail(String mail) {
+        String sql = "SELECT * FROM Exercise WHERE Owner=\"" + mail + "\"";
+        Exercise e = null;
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()) {
+                e = new Exercise(rs.getString("title"), rs.getString("description"), rs.getString("category"), rs.getString("owner"));
+            }
+            stmt.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DDBBConection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return e;
+    }
+    
+    public void deleteExerciseByOwnerMail(String mail) {
+        String sql = "DELETE FROM Exercise WHERE Owner=?;";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1,mail);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DDBBConection.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+        }
     }
     
     public List<String> getTables() {
