@@ -1,5 +1,9 @@
 package Vista;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -12,11 +16,19 @@ import java.util.logging.Logger;
 
 public class login extends javax.swing.JFrame {
 
-    private Connection con;
-    private DatabaseMetaData dbmd;
+    private DatabaseMetaData md;
+    protected static Connection con;
     
     public login() {
         initComponents();
+        this.setResizable(false);    
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                closeWindow();
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -26,10 +38,10 @@ public class login extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        username = new javax.swing.JTextField();
-        password = new javax.swing.JTextField();
+        usernameField = new javax.swing.JTextField();
+        passwordField = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        loginButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -39,9 +51,9 @@ public class login extends javax.swing.JFrame {
 
         jLabel3.setText("Contraseña:");
 
-        username.addActionListener(new java.awt.event.ActionListener() {
+        usernameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameActionPerformed(evt);
+                usernameFieldActionPerformed(evt);
             }
         });
 
@@ -56,9 +68,9 @@ public class login extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(username, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                    .addComponent(password))
-                .addContainerGap(41, Short.MAX_VALUE))
+                    .addComponent(usernameField, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .addComponent(passwordField))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -66,18 +78,23 @@ public class login extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setText("Inicio de sesión");
 
-        jButton1.setText("Iniciar sesión");
+        loginButton.setText("Iniciar sesión");
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -87,12 +104,12 @@ public class login extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(132, 132, 132)
-                        .addComponent(jButton1))
+                        .addComponent(loginButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE))))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -103,39 +120,67 @@ public class login extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(jButton1)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addComponent(loginButton)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
+    private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_usernameActionPerformed
+    }//GEN-LAST:event_usernameFieldActionPerformed
+
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        if(creaConexion()){
+            System.out.println("Se estableció la conexión!");         
+        }else{
+            System.out.println("Error"); 
+        }
+    }//GEN-LAST:event_loginButtonActionPerformed
 
     
-    private void conectar() {
+    private boolean creaConexion(){
+        
+        try {
+            this.con = DriverManager.getConnection("jdbc:sqlite:Base de datos GS1.db");
+            
+            this.md = con.getMetaData();
+            return true;
+            
+        } catch (SQLException ex) {
+            System.out.println("[ERROR]: " + ex);
+            JOptionPane.showMessageDialog(null,
+                "Inserte usuario y contraseña validos", "ERROR",
+                JOptionPane.ERROR_MESSAGE);
+            return false;
+        }            
+
+    }
+    
+    
+    
+    /*private void conectar() {
         String servidorSQLitePrueba = "jdbc:sqlite:Base de datos GS1.db";
         
         try {
             //Descomentar
-            /*Connection con = DriverManager.getConnection("jdbc:mysql://" + servidor + "/" + bbdd + "?useSSL=true",
+            Connection con = DriverManager.getConnection("jdbc:mysql://" + servidor + "/" + bbdd + "?useSSL=true",
                     usuarioPrueba,
-                    contraseñaPrueba);*/
+                    contraseñaPrueba);
             //Comentar
             con = DriverManager.getConnection(servidorSQLitePrueba);
             dbmd = con.getMetaData();
         } catch (SQLException ex) {
             Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }*/
     
     public List<String> obtenerTablas() {
         List<String> tablas = new ArrayList<>();
         try {
             String[] types = {"TABLE"};
-            ResultSet rs = dbmd.getTables(null, null, "%", types);
+            ResultSet rs = md.getTables(null, null, "%", types);
             while (rs.next()) {
                 String nombreTabla = rs.getString("TABLE_NAME");
                 //System.out.println("Tabla: " + nombreTabla);
@@ -150,7 +195,7 @@ public class login extends javax.swing.JFrame {
     public List<String> obtenerCampos(String tabla) {
         List<String> columnas = new ArrayList<>();
         try {
-            ResultSet rs = dbmd.getColumns(null, null, tabla, null);
+            ResultSet rs = md.getColumns(null, null, tabla, null);
             while (rs.next()) {
                 String nombreCampo = rs.getString("COLUMN_NAME");
                 //System.out.println("   Campo: " + nombreCampo);
@@ -172,13 +217,25 @@ public class login extends javax.swing.JFrame {
     }
     
     public void mostrarPrueba() {
-        conectar();
+        creaConexion();
         System.out.println(obtenerTablas());
         for(String tabla : obtenerTablas()) {
             System.out.println(obtenerCampos(tabla));
         }
         cerrarConexion();
         System.exit(0);
+    }
+    
+    private void closeWindow() {
+        int exitValue = JOptionPane.showConfirmDialog(null,
+                "¿Está seguro de que desea salir de la aplicación?.", "Salir",
+                JOptionPane.YES_NO_OPTION);
+        if (exitValue == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        } else {
+            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
+
     }
     
         /**
@@ -212,20 +269,20 @@ public class login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                //new login().setVisible(true);
-                new login().mostrarPrueba();
+                new login().setVisible(true);
+                //new login().mostrarPrueba();
             }
         });
         
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField password;
-    private javax.swing.JTextField username;
+    private javax.swing.JButton loginButton;
+    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
 }
