@@ -35,7 +35,7 @@ public class login extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel2.setText("Usuario:");
+        jLabel2.setText("Correo:");
 
         jLabel3.setText("Contraseña:");
 
