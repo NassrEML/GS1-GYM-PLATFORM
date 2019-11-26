@@ -139,12 +139,12 @@ public class DDBBConectionTest {
         String category = "Sin categoria";
         String owner = "prueba@prueba.com";
         con.addExercise(title, description, category, owner);
-        Exercise e = con.getExeciseByOwnerMail(owner);
+        Exercise e = con.getExeciseByTitle(title);
         assertEquals(title, e.getTitle());
         assertEquals(description, e.getDescription());
         assertEquals(category, e.getCategory());
         assertEquals(owner, e.getOwner());
-        con.deleteExerciseByOwnerMail(owner);
+        con.deleteExerciseTitle(title);
         e=null;
     }
     

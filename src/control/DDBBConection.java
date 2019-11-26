@@ -124,8 +124,8 @@ public class DDBBConection {
         }
     }
     
-    public Exercise getExeciseByOwnerMail(String mail) {
-        String sql = "SELECT * FROM Exercise WHERE Owner=\"" + mail + "\"";
+    public Exercise getExeciseByTitle(String title) {
+        String sql = "SELECT * FROM Exercise WHERE Title=\"" + title + "\"";
         Exercise e = null;
         try {
             Statement stmt = con.createStatement();
@@ -141,11 +141,11 @@ public class DDBBConection {
         return e;
     }
     
-    public void deleteExerciseByOwnerMail(String mail) {
-        String sql = "DELETE FROM Exercise WHERE Owner=?;";
+    public void deleteExerciseTitle(String title) {
+        String sql = "DELETE FROM Exercise WHERE Title=?;";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1,mail);
+            ps.setString(1,title);
             ps.executeUpdate();
             ps.close();
         } catch (SQLException ex) {
