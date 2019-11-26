@@ -7,13 +7,19 @@ public class mainView extends javax.swing.JFrame {
 
     private User userLogged;
     private DDBBConection dbconn;
-    
+
     public mainView(User userLogged, DDBBConection dbconn) {
         this.userLogged = userLogged;
         this.dbconn = dbconn;
-        
+
         initComponents();
         usernameLabel.setText(this.userLogged.getName() + " " + this.userLogged.getLastname());
+        if (!userLogged.getRol().equals("Administrador")) {
+            categoriesButton.setVisible(false);
+        }
+        if (!userLogged.getRol().equals("Administrador") && !userLogged.getRol().equals("Entrenador")) {
+            membersButton.setVisible(false);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -64,13 +70,13 @@ public class mainView extends javax.swing.JFrame {
             adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(adminPanelLayout.createSequentialGroup()
                 .addGap(52, 52, 52)
-                .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(membersButton)
-                    .addComponent(profileButton))
+                .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(membersButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(profileButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(libraryButton)
-                    .addComponent(categoriesButton))
+                .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(categoriesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(libraryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(620, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -136,8 +142,10 @@ public class mainView extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void membersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_membersButtonActionPerformed
-        VistaAdminVerUsuarios viewUsers = new VistaAdminVerUsuarios();
-        viewUsers.setVisible(true);
+        if (userLogged.getRol().equals("Administrador")) {
+            VistaAdminVerUsuarios viewUsers = new VistaAdminVerUsuarios();
+            viewUsers.setVisible(true);
+        }
     }//GEN-LAST:event_membersButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
