@@ -13,23 +13,36 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Exercise;
 import model.User;
-import view.VistaPrincipal;
+import view.mainView;
 
 public class DDBBConection {
     
-    private Connection con;
-    private DatabaseMetaData dbmd;
+    public static Connection con;
+    public static DatabaseMetaData dbmd;
     
-    public void connect() {
-        String servidorSQLitePrueba = "jdbc:sqlite:Base de datos GS1.db";
-        
+    public boolean connect() {
         try {
-            con = DriverManager.getConnection(servidorSQLitePrueba);
-            dbmd = con.getMetaData();
+            DDBBConection.con = DriverManager.getConnection("jdbc:sqlite:Base de datos GS1.db");
+
+            DDBBConection.dbmd = con.getMetaData();
+            return true;
+
         } catch (SQLException ex) {
-            Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("[ERROR]: " + ex);
+        }
+        return false;
+    }
+    
+    public void closeConnection() {
+        if(DDBBConection.con != null) try {
+            DDBBConection.con.close();
+            DDBBConection.con = null;
+        } catch (SQLException ex) {
+            Logger.getLogger(mainView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
     
     public void addUser(String name, String lastname, int age, String genre, String mail, String rol, String password) {
         String sql = "INSERT INTO User(name, lastname, age, genre, mail, rol, passwordkey) VALUES (?,?,?,?,?,?,?)";
@@ -165,7 +178,7 @@ public class DDBBConection {
                 tablas.add(nombreTabla);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(mainView.class.getName()).log(Level.SEVERE, null, ex);
         }
         return tablas;
     }
@@ -180,18 +193,9 @@ public class DDBBConection {
                 columnas.add(tabla + "." + nombreCampo);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(mainView.class.getName()).log(Level.SEVERE, null, ex);
         }
         return columnas;
-    }
-    
-    public void closeConnection() {
-        if(con != null) try {
-            con.close();
-            con = null;
-        } catch (SQLException ex) {
-            Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     
 }
