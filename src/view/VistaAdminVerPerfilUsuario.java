@@ -5,7 +5,10 @@
  */
 package view;
 
-import java.sql.DatabaseMetaData;
+import control.DDBBConection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -13,13 +16,14 @@ import java.sql.DatabaseMetaData;
  */
 public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
 
-    private final DatabaseMetaData md;
+    private String user_name;
+    private String user_lastname;
 
-    
-    public VistaAdminVerPerfilUsuario(DatabaseMetaData md) {
+    public VistaAdminVerPerfilUsuario(String name_lastname) throws SQLException {
         initComponents();
-        this.md = md;
-
+        user_name = name_lastname.split("\\s+")[0];
+        user_lastname = name_lastname.split("\\s+")[1];
+        setJTextFields();
     }
 
     /**
@@ -43,7 +47,7 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
         name = new javax.swing.JTextField();
         surname = new javax.swing.JTextField();
         age = new javax.swing.JTextField();
-        weigth = new javax.swing.JTextField();
+        weight = new javax.swing.JTextField();
         height = new javax.swing.JTextField();
         sex = new javax.swing.JTextField();
         email = new javax.swing.JTextField();
@@ -88,10 +92,10 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
             }
         });
 
-        weigth.setEditable(false);
-        weigth.addActionListener(new java.awt.event.ActionListener() {
+        weight.setEditable(false);
+        weight.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                weigthActionPerformed(evt);
+                weightActionPerformed(evt);
             }
         });
 
@@ -162,7 +166,7 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
                             .addComponent(jLabel5))
                         .addGap(57, 57, 57)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(weigth, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                            .addComponent(weight, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                             .addComponent(height)
                             .addComponent(sex))
                         .addGap(56, 56, 56))))
@@ -187,7 +191,7 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel5)
                     .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(weigth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(weight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -243,9 +247,9 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ageActionPerformed
 
-    private void weigthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_weigthActionPerformed
+    private void weightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_weightActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_weigthActionPerformed
+    }//GEN-LAST:event_weightActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -254,7 +258,6 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -276,6 +279,26 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
     private javax.swing.JTextField rol;
     private javax.swing.JTextField sex;
     private javax.swing.JTextField surname;
-    private javax.swing.JTextField weigth;
+    private javax.swing.JTextField weight;
     // End of variables declaration//GEN-END:variables
+
+    private void setJTextFields() throws SQLException {
+        Statement stmt = DDBBConection.con.createStatement();
+        String sql = "SELECT * FROM User WHERE Name='" + user_name + "' AND Lastname='" + user_lastname + "';" ;
+        ResultSet rs = stmt.executeQuery(sql);
+
+        while (rs.next()) {
+
+            name.setText(rs.getString("Name"));
+            surname.setText(rs.getString("Lastname"));
+            age.setText(rs.getString("Age"));
+            rol.setText(rs.getString("Rol"));
+            weight.setText(rs.getString("Weight"));
+            height.setText(rs.getString("Height"));
+            sex.setText(rs.getString("Genre"));
+            email.setText(rs.getString("Mail"));
+            
+            
+        }
+    }
 }

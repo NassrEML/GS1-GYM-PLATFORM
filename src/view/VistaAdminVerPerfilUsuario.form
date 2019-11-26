@@ -53,7 +53,7 @@
                       </Group>
                       <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="weigth" alignment="0" pref="101" max="32767" attributes="0"/>
+                          <Component id="weight" alignment="0" pref="101" max="32767" attributes="0"/>
                           <Component id="height" alignment="0" max="32767" attributes="0"/>
                           <Component id="sex" alignment="0" max="32767" attributes="0"/>
                       </Group>
@@ -85,7 +85,7 @@
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="name" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="weigth" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="weight" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -200,12 +200,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ageActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="weigth">
+    <Component class="javax.swing.JTextField" name="weight">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="weigthActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="weightActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="height">

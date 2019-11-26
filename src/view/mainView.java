@@ -41,6 +41,11 @@ public class mainView extends javax.swing.JFrame {
         libraryButton.setText("Biblioteca");
 
         membersButton.setText("Miembros");
+        membersButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                membersButtonActionPerformed(evt);
+            }
+        });
 
         categoriesButton.setText("Categorias");
 
@@ -83,9 +88,9 @@ public class mainView extends javax.swing.JFrame {
             adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(adminPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addGap(33, 33, 33)
                 .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(profileButton)
@@ -129,6 +134,11 @@ public class mainView extends javax.swing.JFrame {
         this.dispose();
         new login().setVisible(true);
     }//GEN-LAST:event_logoutButtonActionPerformed
+
+    private void membersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_membersButtonActionPerformed
+        VistaAdminVerUsuarios viewUsers = new VistaAdminVerUsuarios();
+        viewUsers.setVisible(true);
+    }//GEN-LAST:event_membersButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel adminPanel;

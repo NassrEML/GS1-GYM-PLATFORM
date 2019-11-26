@@ -6,6 +6,7 @@ import view.VistaAdminVerPerfilUsuario;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -22,40 +23,41 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
     private final DefaultListModel userModel = new DefaultListModel();
     private List<User> users = new ArrayList<>();
     private final DatabaseMetaData md = DDBBConection.dbmd;
+    private String mailOfUserSelected;
 
-    
-
-    
-    public VistaAdminVerUsuarios(){
+    public VistaAdminVerUsuarios() {
         initComponents();
         this.setResizable(false);
         this.allUsersList.setModel(userModel);
         showUsers();
 
     }
-    
+
     /**
      * Mostrar los usuarios en la lista al abrir la interfaz
      */
-    private void showUsers(){
+    private void showUsers() {
         userModel.clear();
-        
-        String nombreTabla = "Usuarios";
-        ResultSet rs1;
+
+        //String nombreTabla = "User";
+        //ResultSet rs1;
         try {
-            
-            rs1 = md.getColumns(null, null, nombreTabla, null);
-            
-            while (rs1.next()) {
-                String nombreCampo = rs1.getString("Nombre");
+            Statement stmt = DDBBConection.con.createStatement();
+            String sql = "SELECT Name, Lastname, Mail FROM User";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            //rs1 = md.getColumns(null, null, nombreTabla, null);
+
+            while (rs.next()) {
+                String nombreCampo = rs.getString("Name") + " " + rs.getString("Lastname");
+                this.
                 userModel.addElement(nombreCampo);
-            }           
-            
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(VistaAdminVerUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        
     }
 
     /**
@@ -138,22 +140,19 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
 
         this.showPerfilButton.setEnabled(false);
 
-        if(allUsersList.getSelectedIndices().length == 0){
+        if (allUsersList.getSelectedIndices().length == 0) {
             JOptionPane.showMessageDialog(null,
-                "Seleccione un usuario", "",
-                JOptionPane.INFORMATION_MESSAGE);
-
+                    "Seleccione un usuario", "",
+                    JOptionPane.INFORMATION_MESSAGE);
+            this.showPerfilButton.setEnabled(true);
             return;
         }
         
-        VistaAdminVerPerfilUsuario vistaPerfil = new VistaAdminVerPerfilUsuario(this.md);
+        VistaAdminVerPerfilUsuario vistaPerfil = new VistaAdminVerPerfilUsuario((String)allUsersList.getSelectedValue());
         vistaPerfil.setVisible(true);
         //this.setVisible(false);
-        
-        
-        
-        
-        
+
+
     }//GEN-LAST:event_showPerfilButtonActionPerformed
 
 
