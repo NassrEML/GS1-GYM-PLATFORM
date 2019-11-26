@@ -1,28 +1,24 @@
 package view;
 
+import control.DDBBConection;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import model.User;
 
 public class login extends javax.swing.JFrame {
 
-    private DatabaseMetaData md;
-    protected static Connection con;
     private String correo;
     private String password;
-
+    private User userLogged = null;
+    private DDBBConection dbconn;
+    
     public login() {
+        dbconn = new DDBBConection();
         initComponents();
         this.setResizable(false);
 
@@ -135,21 +131,35 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_emailFieldActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        if (creaConexion()) {
+        loginButton.setEnabled(false);
+        if (dbconn.connect()) {
             System.out.println("Se estableció la conexión!");
             this.correo = emailField.getText();
             this.password = new String(passwordField.getPassword());
             System.out.println("usuario: " + this.correo + "\ncontraseña: " + this.password);
             try {
-                Statement stmt = con.createStatement();
-                String sql = "SELECT Nombre, Apellidos FROM Usuarios WHERE Correo='" + this.correo + "' AND Clave='" + this.password + "'";
+                Statement stmt = DDBBConection.con.createStatement();
+                String sql = "SELECT * FROM User WHERE Mail='" + this.correo + "' AND PasswordKey='" + this.password + "'";
                 ResultSet rs = stmt.executeQuery(sql);
 
-                while (rs.next()){
-                    String nombre = rs.getString("Nombre");
-                    String apellidos = rs.getString("Apellidos");
-                    System.out.print("\nEl usuario existe! \nSe llama " + nombre + apellidos);
+                while (rs.next()) {
+                    userLogged = dbconn.getUserByMail(this.correo);
+                    System.out.println("El usuario " +  userLogged.getName() +  " es un " + userLogged.getRol() );
                 }
+                
+                if (userLogged == null ) {
+                    JOptionPane.showMessageDialog(null,
+                    "Inserte usuario y contraseña validos", "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+                    loginButton.setEnabled(true);
+                    return;
+                }else{
+                    mainView vista_principal = new mainView(this.userLogged, dbconn);
+                    vista_principal.setVisible(true);
+                    this.dispose();
+                }
+                
+                
 
             } catch (SQLException e) {
                 System.out.println("SQLExcepcion: " + e);
@@ -157,37 +167,12 @@ public class login extends javax.swing.JFrame {
 
         } else {
             System.out.println("Error");
+            JOptionPane.showMessageDialog(null,
+                    "Error de conexión", "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+            loginButton.setEnabled(true);
         }
     }//GEN-LAST:event_loginButtonActionPerformed
-
-    private boolean creaConexion() {
-
-        try {
-            this.con = DriverManager.getConnection("jdbc:sqlite:Base de datos GS1.db");
-
-            this.md = con.getMetaData();
-            return true;
-
-        } catch (SQLException ex) {
-            System.out.println("[ERROR]: " + ex);
-            JOptionPane.showMessageDialog(null,
-                    "Inserte usuario y contraseña validos", "ERROR",
-                    JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-
-    }
-
-    public void cerrarConexion() {
-        if (con != null) {
-            try {
-                con.close();
-                con = null;
-            } catch (SQLException ex) {
-                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
 
     private void closeWindow() {
         int exitValue = JOptionPane.showConfirmDialog(null,

@@ -5,8 +5,8 @@ public class User {
     private String name;
     private String lastname;
     private int age;
-    private float weight;
-    private float height;
+    private double weight;
+    private double height;
     private String genre;
     private String mail;
     private String rol;
@@ -22,7 +22,7 @@ public class User {
         this.password = password;
     }
     
-    public User(String name, String lastname, int age, float weight, float height, String genre, String mail, String rol, String password) {
+    public User(String name, String lastname, int age, double weight, double height, String genre, String mail, String rol, String password) {
         this.name = name;
         this.lastname = lastname;
         this.age = age;
@@ -49,11 +49,11 @@ public class User {
         return age;
     }
 
-    public float getWeight() {
+    public double getWeight() {
         return weight;
     }
 
-    public float getHeight() {
+    public double getHeight() {
         return height;
     }
 
