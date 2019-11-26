@@ -16,10 +16,10 @@ import model.User;
 import view.mainView;
 
 public class DDBBConection {
-    
+
     public static Connection con;
     public static DatabaseMetaData dbmd;
-    
+
     public boolean connect() {
         try {
             DDBBConection.con = DriverManager.getConnection("jdbc:sqlite:Base de datos GS1.db");
@@ -32,23 +32,23 @@ public class DDBBConection {
         }
         return false;
     }
-    
+
     public void closeConnection() {
-        if(DDBBConection.con != null) try {
-            DDBBConection.con.close();
-            DDBBConection.con = null;
-        } catch (SQLException ex) {
-            Logger.getLogger(mainView.class.getName()).log(Level.SEVERE, null, ex);
+        if (DDBBConection.con != null) {
+            try {
+                DDBBConection.con.close();
+                DDBBConection.con = null;
+            } catch (SQLException ex) {
+                Logger.getLogger(mainView.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
-    
-    
-    
+
     public void addUser(String name, String lastname, int age, String genre, String mail, String rol, String password) {
         String sql = "INSERT INTO User(name, lastname, age, genre, mail, rol, passwordkey) VALUES (?,?,?,?,?,?,?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1,name);
+            ps.setString(1, name);
             ps.setString(2, lastname);
             ps.setInt(3, age);
             ps.setString(4, genre);
@@ -61,40 +61,38 @@ public class DDBBConection {
             Logger.getLogger(DDBBConection.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void addUser(String name, String lastname, int age, float weight, float height, String genre, String mail, String rol, String password) {
+
+    public static void addUser(String name, String lastname, int age, double weight, double height, String genre, String mail, String rol, String password) throws SQLException {
         String sql = "INSERT INTO User(name, lastname, age, weight, height, genre, mail, rol, passwordkey) VALUES (?,?,?,?,?,?,?,?,?)";
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1,name);
-            ps.setString(2, lastname);
-            ps.setInt(3, age);
-            if(weight > 0.0f) {
-               ps.setFloat(4, weight);
-            } else {
-               ps.setNull(4, java.sql.Types.NULL);
-            }
-            if(height > 0.0f) {
-                ps.setFloat(5, height);
-            } else {
-                ps.setNull(5, java.sql.Types.NULL);
-            }
-            ps.setString(6, genre);
-            ps.setString(7, mail);
-            ps.setString(8, rol);
-            ps.setString(9, password);
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DDBBConection.class.getName()).log(Level.SEVERE, null, ex);
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, name);
+        ps.setString(2, lastname);
+        ps.setInt(3, age);
+        if (weight > 0.0) {
+            ps.setDouble(4, weight);
+        } else {
+            ps.setNull(4, java.sql.Types.NULL);
         }
+        if (height > 0.0) {
+            ps.setDouble(5, height);
+        } else {
+            ps.setNull(5, java.sql.Types.NULL);
+        }
+        ps.setString(6, genre);
+        ps.setString(7, mail);
+        ps.setString(8, rol);
+        ps.setString(9, password);
+        ps.executeUpdate();
+        ps.close();
+
     }
-    
+
     public void deleteUserByMail(String mail) {
         String sql = "DELETE FROM User WHERE Mail=?;";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1,mail);
+            ps.setString(1, mail);
             ps.executeUpdate();
             ps.close();
         } catch (SQLException ex) {
@@ -102,16 +100,16 @@ public class DDBBConection {
             System.out.println(ex.getMessage());
         }
     }
-    
+
     public User getUserByMail(String mail) {
         String sql = "SELECT * FROM User WHERE Mail=\"" + mail + "\"";
         User u = null;
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
-            while(rs.next()) {
-                u = new User(rs.getString("name"), rs.getString("lastname"), rs.getInt("age"), 
-                        rs.getFloat("weight"), rs.getFloat("height"), rs.getString("genre"), 
+            while (rs.next()) {
+                u = new User(rs.getString("name"), rs.getString("lastname"), rs.getInt("age"),
+                        rs.getFloat("weight"), rs.getFloat("height"), rs.getString("genre"),
                         rs.getString("mail"), rs.getString("rol"), rs.getString("passwordkey"));
             }
             stmt.close();
@@ -121,7 +119,7 @@ public class DDBBConection {
         }
         return u;
     }
-    
+
     public void addExercise(String title, String description, String category, String owner) {
         String sql = "INSERT INTO Exercise(Title, Description, Category, Owner) VALUES (?,?,?,?)";
         try {
@@ -136,14 +134,14 @@ public class DDBBConection {
             Logger.getLogger(DDBBConection.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public Exercise getExeciseByTitle(String title) {
         String sql = "SELECT * FROM Exercise WHERE Title=\"" + title + "\"";
         Exercise e = null;
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
-            while(rs.next()) {
+            while (rs.next()) {
                 e = new Exercise(rs.getString("title"), rs.getString("description"), rs.getString("category"), rs.getString("owner"));
             }
             stmt.close();
@@ -153,12 +151,12 @@ public class DDBBConection {
         }
         return e;
     }
-    
+
     public void deleteExerciseTitle(String title) {
         String sql = "DELETE FROM Exercise WHERE Title=?;";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1,title);
+            ps.setString(1, title);
             ps.executeUpdate();
             ps.close();
         } catch (SQLException ex) {
@@ -166,7 +164,7 @@ public class DDBBConection {
             System.out.println(ex.getMessage());
         }
     }
-    
+
     public List<String> getTables() {
         List<String> tablas = new ArrayList<>();
         try {
@@ -197,5 +195,5 @@ public class DDBBConection {
         }
         return columnas;
     }
-    
+
 }

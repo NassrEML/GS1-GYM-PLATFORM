@@ -1,4 +1,5 @@
 import control.DDBBConection;
+import java.sql.SQLException;
 import model.Exercise;
 import model.User;
 import org.junit.After;
@@ -57,12 +58,12 @@ public class DDBBConectionTest {
     }
     
     @Test
-    public void add_user_with_all_data() {
+    public void add_user_with_all_data() throws SQLException {
         String name = "pepe";
         String lastname = "birola";
         int age = 44;
-        float weight = 82.5f;
-        float height = 1.8f;
+        double weight = 82.5;
+        double height = 1.8;
         String genre = "Masculino";
         String mail = "prueba2@prueba.com";
         String rol = "Deportista";
@@ -83,16 +84,16 @@ public class DDBBConectionTest {
     }
     
     @Test
-    public void add_user_with_obligated_data_and_the_weight() {
+    public void add_user_with_obligated_data_and_the_weight() throws SQLException {
         String name = "pepe";
         String lastname = "birola";
         int age = 44;
-        float weight = 82.5f;
+        double weight = 82.5;
         String genre = "Masculino";
         String mail = "prueba2@prueba.com";
         String rol = "Deportista";
         String password = "1234";
-        con.addUser(name, lastname, age, weight, 0.0f, genre, mail, rol, password);
+        con.addUser(name, lastname, age, weight, 0.0, genre, mail, rol, password);
         User u = con.getUserByMail(mail);
         assertEquals(name, u.getName());
         assertEquals(lastname, u.getLastname());
@@ -108,16 +109,16 @@ public class DDBBConectionTest {
     }
     
     @Test
-    public void add_user_with_obligated_data_and_the_height() {
+    public void add_user_with_obligated_data_and_the_height() throws SQLException {
         String name = "pepe";
         String lastname = "birola";
         int age = 44;
-        float height = 1.8f;
+        double height = 1.8;
         String genre = "Masculino";
         String mail = "prueba2@prueba.com";
         String rol = "Deportista";
         String password = "1234";
-        con.addUser(name, lastname, age, 0.0f, height, genre, mail, rol, password);
+        con.addUser(name, lastname, age, 0.0, height, genre, mail, rol, password);
         User u = con.getUserByMail(mail);
         assertEquals(name, u.getName());
         assertEquals(lastname, u.getLastname());
