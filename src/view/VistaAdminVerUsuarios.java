@@ -1,8 +1,9 @@
 package view;
 
 import control.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import model.*;
-import view.VistaAdminVerPerfilUsuario;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,7 +25,6 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
     private final DefaultListModel userModel = new DefaultListModel();
     private List<User> users = new ArrayList<>();
     private final DatabaseMetaData md = DDBBConection.dbmd;
-    private String mailOfUserSelected;
 
     public VistaAdminVerUsuarios() {
         initComponents();
@@ -31,6 +32,12 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
         this.allUsersList.setModel(userModel);
         showUsers();
 
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                closeWindow();
+            }
+        });
     }
 
     /**
@@ -157,7 +164,17 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
 
     }//GEN-LAST:event_showPerfilButtonActionPerformed
 
-
+    private void closeWindow() {
+        int exitValue = JOptionPane.showConfirmDialog(null,
+                "¿Está seguro de que desea salir de la aplicación?.", "Salir",
+                JOptionPane.YES_NO_OPTION);
+        if (exitValue == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        } else {
+            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList allUsersList;
     private javax.swing.JButton jButton1;

@@ -1,19 +1,33 @@
 package view;
 
 import control.DDBBConection;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import model.User;
 
 public class mainView extends javax.swing.JFrame {
 
     private User userLogged;
     private DDBBConection dbconn;
-    
+
     public mainView(User userLogged, DDBBConection dbconn) {
         this.userLogged = userLogged;
         this.dbconn = dbconn;
-        
+
         initComponents();
         usernameLabel.setText(this.userLogged.getName() + " " + this.userLogged.getLastname());
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                closeWindow();
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -39,6 +53,11 @@ public class mainView extends javax.swing.JFrame {
         });
 
         libraryButton.setText("Biblioteca");
+        libraryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                libraryButtonActionPerformed(evt);
+            }
+        });
 
         membersButton.setText("Miembros");
         membersButton.addActionListener(new java.awt.event.ActionListener() {
@@ -140,6 +159,17 @@ public class mainView extends javax.swing.JFrame {
         viewUsers.setVisible(true);
     }//GEN-LAST:event_membersButtonActionPerformed
 
+    private void libraryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_libraryButtonActionPerformed
+        Library library;
+        try {
+            library = new Library();
+            library.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(mainView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_libraryButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel adminPanel;
     private javax.swing.JButton categoriesButton;
@@ -150,4 +180,15 @@ public class mainView extends javax.swing.JFrame {
     private javax.swing.JButton profileButton;
     private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables
+
+    private void closeWindow() {
+        int exitValue = JOptionPane.showConfirmDialog(null,
+                "¿Está seguro de que desea salir de la aplicación?.", "Salir",
+                JOptionPane.YES_NO_OPTION);
+        if (exitValue == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        } else {
+            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
+    }
 }
