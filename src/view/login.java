@@ -8,6 +8,8 @@ import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import model.User;
 
 public class login extends javax.swing.JFrame {
@@ -16,7 +18,7 @@ public class login extends javax.swing.JFrame {
     private String password;
     private User userLogged = null;
     private DDBBConection dbconn;
-    
+
     public login() {
         dbconn = new DDBBConection();
         initComponents();
@@ -133,10 +135,24 @@ public class login extends javax.swing.JFrame {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         loginButton.setEnabled(false);
         if (dbconn.connect()) {
-            System.out.println("Se estableció la conexión!");
+            //System.out.println("Se estableció la conexión!");
             this.correo = emailField.getText();
+
+            String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+
+            if (!this.correo.matches(regex)) {
+                System.out.println("Error");
+                JOptionPane.showMessageDialog(null,
+                        "Email incorrecto", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
+                loginButton.setEnabled(true);
+                return;
+            }
+            
             this.password = new String(passwordField.getPassword());
-            System.out.println("usuario: " + this.correo + "\ncontraseña: " + this.password);
+            
+            //System.out.println("usuario: " + this.correo + "\ncontraseña: " + this.password);
+            
             try {
                 Statement stmt = DDBBConection.con.createStatement();
                 String sql = "SELECT * FROM User WHERE Mail='" + this.correo + "' AND PasswordKey='" + this.password + "'";
@@ -144,22 +160,20 @@ public class login extends javax.swing.JFrame {
 
                 while (rs.next()) {
                     userLogged = dbconn.getUserByMail(this.correo);
-                    System.out.println("El usuario " +  userLogged.getName() +  " es un " + userLogged.getRol() );
+                    System.out.println("El usuario " + userLogged.getName() + " es un " + userLogged.getRol());
                 }
-                
-                if (userLogged == null ) {
+
+                if (userLogged == null) {
                     JOptionPane.showMessageDialog(null,
-                    "Inserte usuario y contraseña validos", "ERROR",
-                    JOptionPane.ERROR_MESSAGE);
+                            "Inserte usuario y contraseña validos", "ERROR",
+                            JOptionPane.ERROR_MESSAGE);
                     loginButton.setEnabled(true);
                     return;
-                }else{
+                } else {
                     mainView vista_principal = new mainView(this.userLogged, dbconn);
                     vista_principal.setVisible(true);
                     this.dispose();
                 }
-                
-                
 
             } catch (SQLException e) {
                 System.out.println("SQLExcepcion: " + e);

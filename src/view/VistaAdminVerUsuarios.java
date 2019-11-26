@@ -47,11 +47,9 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
             ResultSet rs = stmt.executeQuery(sql);
 
             //rs1 = md.getColumns(null, null, nombreTabla, null);
-
             while (rs.next()) {
                 String nombreCampo = rs.getString("Name") + " " + rs.getString("Lastname");
-                this.
-                userModel.addElement(nombreCampo);
+                this.userModel.addElement(nombreCampo);
             }
 
         } catch (SQLException ex) {
@@ -147,9 +145,13 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
             this.showPerfilButton.setEnabled(true);
             return;
         }
-        
-        VistaAdminVerPerfilUsuario vistaPerfil = new VistaAdminVerPerfilUsuario((String)allUsersList.getSelectedValue());
-        vistaPerfil.setVisible(true);
+
+        try {
+            VistaAdminVerPerfilUsuario vistaPerfil = new VistaAdminVerPerfilUsuario((String) allUsersList.getSelectedValue());
+            vistaPerfil.setVisible(true);
+        } catch (Exception e) {
+            System.out.println("Excepcion: " + e);
+        }
         //this.setVisible(false);
 
 
