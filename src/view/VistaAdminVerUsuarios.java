@@ -91,6 +91,11 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
         jButton1.setText("Borrar");
 
         jButton2.setText("Crear");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -156,6 +161,11 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_showPerfilButtonActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        VistaAdminCrearUsuarios vacu = new VistaAdminCrearUsuarios();
+        vacu.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
