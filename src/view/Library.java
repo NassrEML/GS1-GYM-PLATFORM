@@ -66,7 +66,7 @@ public class Library extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         exerciseCategoryLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         exerciseList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -163,7 +163,7 @@ public class Library extends javax.swing.JFrame {
                 "¿Está seguro de que desea salir de la aplicación?.", "Salir",
                 JOptionPane.YES_NO_OPTION);
         if (exitValue == JOptionPane.YES_OPTION) {
-            System.exit(0);
+            dispose();
         } else {
             setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         }
