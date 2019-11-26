@@ -1,8 +1,9 @@
 package view;
 
 import control.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import model.*;
-import view.VistaAdminVerPerfilUsuario;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,7 +25,6 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
     private final DefaultListModel userModel = new DefaultListModel();
     private List<User> users = new ArrayList<>();
     private final DatabaseMetaData md = DDBBConection.dbmd;
-    private String mailOfUserSelected;
 
     public VistaAdminVerUsuarios() {
         initComponents();
@@ -31,6 +32,12 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
         this.allUsersList.setModel(userModel);
         showUsers();
 
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                closeWindow();
+            }
+        });
     }
 
     /**
@@ -74,7 +81,7 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setText("Usuarios");
@@ -91,6 +98,11 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
         jButton1.setText("Borrar");
 
         jButton2.setText("Crear");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -156,6 +168,22 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_showPerfilButtonActionPerformed
+
+    private void closeWindow() {
+        int exitValue = JOptionPane.showConfirmDialog(null,
+                "¿Está seguro de que desea salir de la aplicación?.", "Salir",
+                JOptionPane.YES_NO_OPTION);
+        if (exitValue == JOptionPane.YES_OPTION) {
+            dispose();
+        } else {
+            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
+    }
+    
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        VistaAdminCrearUsuarios vacu = new VistaAdminCrearUsuarios();
+        vacu.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

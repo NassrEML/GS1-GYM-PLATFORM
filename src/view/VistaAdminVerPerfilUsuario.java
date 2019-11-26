@@ -6,9 +6,13 @@
 package view;
 
 import control.DDBBConection;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -24,6 +28,14 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
         user_name = name_lastname.split("\\s+")[0];
         user_lastname = name_lastname.split("\\s+")[1];
         setJTextFields();
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                closeWindow();
+            }
+        });
+        
     }
 
     /**
@@ -55,7 +67,7 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setText("Perfil de Usuario");
@@ -301,4 +313,16 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
             
         }
     }
+    
+    private void closeWindow() {
+        int exitValue = JOptionPane.showConfirmDialog(null,
+                "¿Está seguro de que desea salir de la aplicación?.", "Salir",
+                JOptionPane.YES_NO_OPTION);
+        if (exitValue == JOptionPane.YES_OPTION) {
+            dispose();
+        } else {
+            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
+    }
+    
 }
