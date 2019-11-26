@@ -136,23 +136,32 @@ public class login extends javax.swing.JFrame {
         loginButton.setEnabled(false);
         if (dbconn.connect()) {
             //System.out.println("Se estableció la conexión!");
-            this.correo = emailField.getText();
 
-            String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
-
-            if (!this.correo.matches(regex)) {
+            if (validateEmail(emailField.getText())) {
+                this.correo = emailField.getText();
+            } else {
                 System.out.println("Error");
                 JOptionPane.showMessageDialog(null,
-                        "Email incorrecto", "ERROR",
+                        "El formato del correo no es válido", "ERROR",
                         JOptionPane.ERROR_MESSAGE);
                 loginButton.setEnabled(true);
                 return;
             }
-            
-            this.password = new String(passwordField.getPassword());
-            
+
+            if (validatePassword(new String(passwordField.getPassword()))) {
+                this.password = new String(passwordField.getPassword());
+            } else {
+                System.out.println("Error");
+                JOptionPane.showMessageDialog(null,
+                        "El formato de la contraseña no es válida.\nLa contraseña "
+                                + "debe contener al menos un dígito, una mayúscula y "
+                                + "minúscula y no se permiten espacios.", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
+                loginButton.setEnabled(true);
+                return;
+            }
+
             //System.out.println("usuario: " + this.correo + "\ncontraseña: " + this.password);
-            
             try {
                 Statement stmt = DDBBConection.con.createStatement();
                 String sql = "SELECT * FROM User WHERE Mail='" + this.correo + "' AND PasswordKey='" + this.password + "'";
@@ -246,4 +255,12 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JButton loginButton;
     private javax.swing.JPasswordField passwordField;
     // End of variables declaration//GEN-END:variables
+
+    private boolean validateEmail(String email) {
+        return email.matches("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
+    }
+
+    private boolean validatePassword(String password) {
+        return password.matches("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}");
+    }
 }
