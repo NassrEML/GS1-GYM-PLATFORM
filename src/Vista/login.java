@@ -9,6 +9,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -18,11 +19,13 @@ public class login extends javax.swing.JFrame {
 
     private DatabaseMetaData md;
     protected static Connection con;
-    
+    private String correo;
+    private String password;
+
     public login() {
         initComponents();
-        this.setResizable(false);    
-        
+        this.setResizable(false);
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -38,7 +41,7 @@ public class login extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        usernameField = new javax.swing.JTextField();
+        emailField = new javax.swing.JTextField();
         passwordField = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
         loginButton = new javax.swing.JButton();
@@ -51,9 +54,9 @@ public class login extends javax.swing.JFrame {
 
         jLabel3.setText("Contraseña:");
 
-        usernameField.addActionListener(new java.awt.event.ActionListener() {
+        emailField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameFieldActionPerformed(evt);
+                emailFieldActionPerformed(evt);
             }
         });
 
@@ -68,7 +71,7 @@ public class login extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(usernameField, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .addComponent(emailField, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                     .addComponent(passwordField))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -78,7 +81,7 @@ public class login extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -127,105 +130,65 @@ public class login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
+    private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_usernameFieldActionPerformed
+    }//GEN-LAST:event_emailFieldActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        if(creaConexion()){
-            System.out.println("Se estableció la conexión!");         
-        }else{
-            System.out.println("Error"); 
+        if (creaConexion()) {
+            System.out.println("Se estableció la conexión!");
+            this.correo = emailField.getText();
+            this.password = new String(passwordField.getPassword());
+            System.out.println("usuario: " + this.correo + "\ncontraseña: " + this.password);
+            try {
+                Statement stmt = con.createStatement();
+                String sql = "SELECT Nombre, Apellidos FROM Usuarios WHERE Correo='" + this.correo + "' AND Clave='" + this.password + "'";
+                ResultSet rs = stmt.executeQuery(sql);
+
+                while (rs.next()){
+                    String nombre = rs.getString("Nombre");
+                    String apellidos = rs.getString("Apellidos");
+                    System.out.print("\nEl usuario existe! \nSe llama " + nombre + apellidos);
+                }
+
+            } catch (SQLException e) {
+                System.out.println("SQLExcepcion: " + e);
+            }
+
+        } else {
+            System.out.println("Error");
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 
-    
-    private boolean creaConexion(){
-        
+    private boolean creaConexion() {
+
         try {
             this.con = DriverManager.getConnection("jdbc:sqlite:Base de datos GS1.db");
-            
+
             this.md = con.getMetaData();
             return true;
-            
+
         } catch (SQLException ex) {
             System.out.println("[ERROR]: " + ex);
             JOptionPane.showMessageDialog(null,
-                "Inserte usuario y contraseña validos", "ERROR",
-                JOptionPane.ERROR_MESSAGE);
+                    "Inserte usuario y contraseña validos", "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
             return false;
-        }            
+        }
 
     }
-    
-    
-    
-    /*private void conectar() {
-        String servidorSQLitePrueba = "jdbc:sqlite:Base de datos GS1.db";
-        
-        try {
-            //Descomentar
-            Connection con = DriverManager.getConnection("jdbc:mysql://" + servidor + "/" + bbdd + "?useSSL=true",
-                    usuarioPrueba,
-                    contraseñaPrueba);
-            //Comentar
-            con = DriverManager.getConnection(servidorSQLitePrueba);
-            dbmd = con.getMetaData();
-        } catch (SQLException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }*/
-    
-    public List<String> obtenerTablas() {
-        List<String> tablas = new ArrayList<>();
-        try {
-            String[] types = {"TABLE"};
-            ResultSet rs = md.getTables(null, null, "%", types);
-            while (rs.next()) {
-                String nombreTabla = rs.getString("TABLE_NAME");
-                //System.out.println("Tabla: " + nombreTabla);
-                tablas.add(nombreTabla);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return tablas;
-    }
 
-    public List<String> obtenerCampos(String tabla) {
-        List<String> columnas = new ArrayList<>();
-        try {
-            ResultSet rs = md.getColumns(null, null, tabla, null);
-            while (rs.next()) {
-                String nombreCampo = rs.getString("COLUMN_NAME");
-                //System.out.println("   Campo: " + nombreCampo);
-                columnas.add(tabla + "." + nombreCampo);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return columnas;
-    }
-    
     public void cerrarConexion() {
-        if(con != null) try {
-            con.close();
-            con = null;
-        } catch (SQLException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+        if (con != null) {
+            try {
+                con.close();
+                con = null;
+            } catch (SQLException ex) {
+                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
-    
-    public void mostrarPrueba() {
-        creaConexion();
-        System.out.println(obtenerTablas());
-        for(String tabla : obtenerTablas()) {
-            System.out.println(obtenerCampos(tabla));
-        }
-        cerrarConexion();
-        System.exit(0);
-    }
-    
+
     private void closeWindow() {
         int exitValue = JOptionPane.showConfirmDialog(null,
                 "¿Está seguro de que desea salir de la aplicación?.", "Salir",
@@ -237,8 +200,8 @@ public class login extends javax.swing.JFrame {
         }
 
     }
-    
-        /**
+
+    /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -270,19 +233,18 @@ public class login extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new login().setVisible(true);
-                //new login().mostrarPrueba();
             }
         });
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField emailField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton loginButton;
     private javax.swing.JPasswordField passwordField;
-    private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
 }
