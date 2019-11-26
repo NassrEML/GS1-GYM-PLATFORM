@@ -45,7 +45,7 @@ public class VistaAdminCrearUsuarios extends javax.swing.JFrame {
 
         countsLabel.setText("Número de cuentas:");
 
-        numCountsLabel.setText("0");
+        numCountsLabel.setText("50");
 
         createUserLabel.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         createUserLabel.setText("Crear Usuario");
