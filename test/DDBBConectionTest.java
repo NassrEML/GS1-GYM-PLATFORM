@@ -1,5 +1,7 @@
 import control.DDBBConection;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Exercise;
 import model.User;
 import org.junit.After;
@@ -139,7 +141,11 @@ public class DDBBConectionTest {
         String description = "Se explica como será el primer ejercicio.";
         String category = "Sin categoria";
         String owner = "prueba@prueba.com";
-        con.addExercise(title, description, category, owner);
+        try {
+            DDBBConection.addExercise(title, description, category, owner);
+        } catch (SQLException ex) {
+            Logger.getLogger(DDBBConectionTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Exercise e = con.getExeciseByTitle(title);
         assertEquals(title, e.getTitle());
         assertEquals(description, e.getDescription());
