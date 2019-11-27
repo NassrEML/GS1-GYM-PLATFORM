@@ -12,6 +12,8 @@ public class VistaAdminCrearUsuarios extends javax.swing.JFrame {
 
     public VistaAdminCrearUsuarios(JButton boton) {
         initComponents();
+        this.setResizable(false);
+
         
         addWindowListener(new WindowAdapter() {
             @Override

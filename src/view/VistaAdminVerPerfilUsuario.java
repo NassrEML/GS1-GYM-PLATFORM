@@ -20,6 +20,8 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
     
     public VistaAdminVerPerfilUsuario(String name_lastname, JButton boton) throws SQLException {
         initComponents();
+        this.setResizable(false);
+
         user_name = name_lastname.split("\\s+")[0];
         user_lastname = name_lastname.split("\\s+")[1];
         setJTextFields();

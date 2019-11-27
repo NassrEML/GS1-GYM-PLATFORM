@@ -31,6 +31,7 @@ public class Library extends javax.swing.JFrame {
 
     public Library() throws SQLException {
         initComponents();
+        this.setResizable(false);
         model = new DefaultListModel();
         exerciseList.setModel(model);
         exerciseList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
