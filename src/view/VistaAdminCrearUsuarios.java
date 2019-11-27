@@ -43,6 +43,7 @@ public class VistaAdminCrearUsuarios extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         countsLabel.setText("Número de cuentas:");
 

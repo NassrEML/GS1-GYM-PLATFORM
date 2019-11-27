@@ -170,7 +170,7 @@ public class mainView extends javax.swing.JFrame {
     private void libraryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_libraryButtonActionPerformed
         Library library;
         try {
-            library = new Library();
+            library = new Library(userLogged);
             library.setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(mainView.class.getName()).log(Level.SEVERE, null, ex);

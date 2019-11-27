@@ -120,7 +120,7 @@ public class DDBBConection {
         return u;
     }
 
-    public void addExercise(String title, String description, String category, String owner) {
+    public static void addExercise(String title, String description, String category, String owner) throws SQLException{
         String sql = "INSERT INTO Exercise(Title, Description, Category, Owner) VALUES (?,?,?,?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
