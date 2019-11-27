@@ -3,31 +3,25 @@ package view;
 import control.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import model.*;
-import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 
-/**
- *
- * @author yusef
- */
+
 public class VistaAdminVerUsuarios extends javax.swing.JFrame {
 
     private final DefaultListModel userModel = new DefaultListModel();
-    private List<User> users = new ArrayList<>();
-    private final DatabaseMetaData md = DDBBConection.dbmd;
 
     public VistaAdminVerUsuarios() {
         initComponents();
+        allUsersList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
         this.setResizable(false);
         this.allUsersList.setModel(userModel);
         showUsers();
@@ -78,8 +72,8 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         allUsersList = new javax.swing.JList();
         showPerfilButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
+        createButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -95,12 +89,12 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Borrar");
+        deleteButton.setText("Borrar");
 
-        jButton2.setText("Crear");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        createButton.setText("Crear");
+        createButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                createButtonActionPerformed(evt);
             }
         });
 
@@ -116,8 +110,8 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
                         .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(showPerfilButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(createButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(83, 83, 83)
                         .addComponent(jLabel1)))
@@ -137,9 +131,9 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(showPerfilButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
+                        .addComponent(deleteButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(createButton)
                         .addGap(81, 81, 81))))
         );
 
@@ -159,19 +153,18 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
         }
 
         try {
-            VistaAdminVerPerfilUsuario vistaPerfil = new VistaAdminVerPerfilUsuario((String) allUsersList.getSelectedValue());
+            VistaAdminVerPerfilUsuario vistaPerfil = new VistaAdminVerPerfilUsuario((String) allUsersList.getSelectedValue(), this.showPerfilButton);
             vistaPerfil.setVisible(true);
         } catch (Exception e) {
             System.out.println("Excepcion: " + e);
         }
-        //this.setVisible(false);
 
 
     }//GEN-LAST:event_showPerfilButtonActionPerformed
 
     private void closeWindow() {
         int exitValue = JOptionPane.showConfirmDialog(null,
-                "¿Está seguro de que desea salir de la aplicación?.", "Salir",
+                "¿Está seguro de que desea cerrar la ventana?.", "Salir",
                 JOptionPane.YES_NO_OPTION);
         if (exitValue == JOptionPane.YES_OPTION) {
             dispose();
@@ -179,17 +172,19 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
             setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         }
     }
-    
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        VistaAdminCrearUsuarios vacu = new VistaAdminCrearUsuarios();
+
+    private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
+
+        this.createButton.setEnabled(false);
+        VistaAdminCrearUsuarios vacu = new VistaAdminCrearUsuarios(this.createButton);
         vacu.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_createButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList allUsersList;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton createButton;
+    private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton showPerfilButton;

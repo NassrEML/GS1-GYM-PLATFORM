@@ -1,13 +1,24 @@
 package view;
 
 import control.DDBBConection;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class VistaAdminCrearUsuarios extends javax.swing.JFrame {
 
-    public VistaAdminCrearUsuarios() {
+    public VistaAdminCrearUsuarios(JButton boton) {
         initComponents();
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                closeWindow(boton);
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -263,6 +274,19 @@ public class VistaAdminCrearUsuarios extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void closeWindow(JButton boton) {
+        int exitValue = JOptionPane.showConfirmDialog(null,
+                "¿Está seguro de que desea cerrar la ventana?.", "Salir",
+                JOptionPane.YES_NO_OPTION);
+        if (exitValue == JOptionPane.YES_OPTION) {
+            this.dispose();
+            boton.setEnabled(true);
+        } else {
+            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
+    }
+    
+    
     private boolean validateEmail(String email) {
         return email.matches("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
     }

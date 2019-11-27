@@ -57,7 +57,7 @@ public class Library extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        exerciseList = new javax.swing.JList<>();
+        exerciseList = new javax.swing.JList<String>();
         jLabel1 = new javax.swing.JLabel();
         exercisePanel = new javax.swing.JPanel();
         exerciseTitle = new javax.swing.JLabel();
@@ -112,7 +112,7 @@ public class Library extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43)
-                .addGroup(exercisePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(exercisePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(exerciseCategoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(52, Short.MAX_VALUE))
@@ -160,7 +160,7 @@ public class Library extends javax.swing.JFrame {
 
     private void closeWindow() {
         int exitValue = JOptionPane.showConfirmDialog(null,
-                "¿Está seguro de que desea salir de la aplicación?.", "Salir",
+                "¿Está seguro de que desea cerrar la ventana?.", "Salir",
                 JOptionPane.YES_NO_OPTION);
         if (exitValue == JOptionPane.YES_OPTION) {
             dispose();

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import control.DDBBConection;
@@ -11,19 +6,19 @@ import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import model.User;
 
-/**
- *
- * @author yusef
- */
+
 public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
 
     private String user_name;
     private String user_lastname;
-
-    public VistaAdminVerPerfilUsuario(String name_lastname) throws SQLException {
+    
+    
+    public VistaAdminVerPerfilUsuario(String name_lastname, JButton boton) throws SQLException {
         initComponents();
         user_name = name_lastname.split("\\s+")[0];
         user_lastname = name_lastname.split("\\s+")[1];
@@ -32,11 +27,22 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                closeWindow();
+                closeWindow(boton);
             }
         });
         
+    } 
+    
+    public VistaAdminVerPerfilUsuario(String name_lastname, JButton boton, User userLogged) throws SQLException {
+        this(name_lastname,boton);
+
+         if (!userLogged.getRol().equals("Administrador")) {
+            this.ExcersButton.setVisible(false);
+        }
     }
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -65,7 +71,9 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
         email = new javax.swing.JTextField();
         rol = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        ExcersButton = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -141,12 +149,16 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Ejercicios Asignados");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        ExcersButton.setText("Ejercicios Asignados");
+        ExcersButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                ExcersButtonActionPerformed(evt);
             }
         });
+
+        jLabel10.setText("Kg");
+
+        jLabel11.setText("m");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -181,7 +193,11 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
                             .addComponent(weight, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                             .addComponent(height)
                             .addComponent(sex))
-                        .addGap(56, 56, 56))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel11))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(189, 189, 189)
                 .addComponent(jLabel1)
@@ -190,7 +206,7 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
                 .addContainerGap(125, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(113, 113, 113)
-                .addComponent(jButton2)
+                .addComponent(ExcersButton)
                 .addGap(122, 122, 122))
         );
         layout.setVerticalGroup(
@@ -203,13 +219,15 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel5)
                     .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(weight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(weight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
                 .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel6)
                     .addComponent(surname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(height, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(height, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(9, 9, 9)
@@ -232,7 +250,7 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
                 .addGap(62, 62, 62)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(ExcersButton))
                 .addContainerGap(88, Short.MAX_VALUE))
         );
 
@@ -267,18 +285,20 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void ExcersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExcersButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_ExcersButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ExcersButton;
     private javax.swing.JTextField age;
     private javax.swing.JTextField email;
     private javax.swing.JTextField height;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -314,12 +334,13 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
         }
     }
     
-    private void closeWindow() {
+    private void closeWindow(JButton boton) {
         int exitValue = JOptionPane.showConfirmDialog(null,
-                "¿Está seguro de que desea salir de la aplicación?.", "Salir",
+                "¿Está seguro de que desea cerrar la ventana?.", "Salir",
                 JOptionPane.YES_NO_OPTION);
         if (exitValue == JOptionPane.YES_OPTION) {
-            dispose();
+            this.dispose();
+            boton.setEnabled(true);
         } else {
             setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         }

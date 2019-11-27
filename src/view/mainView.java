@@ -21,6 +21,7 @@ public class mainView extends javax.swing.JFrame {
 
         initComponents();
         usernameLabel.setText(this.userLogged.getName() + " " + this.userLogged.getLastname());
+        userRolLabel.setText(this.userLogged.getRol());
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -48,6 +49,8 @@ public class mainView extends javax.swing.JFrame {
         logoutButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         usernameLabel = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        userRolLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,6 +86,8 @@ public class mainView extends javax.swing.JFrame {
 
         jLabel1.setText("Usuario: ");
 
+        jLabel2.setText("Rol:");
+
         javax.swing.GroupLayout adminPanelLayout = new javax.swing.GroupLayout(adminPanel);
         adminPanel.setLayout(adminPanelLayout);
         adminPanelLayout.setHorizontalGroup(
@@ -96,18 +101,20 @@ public class mainView extends javax.swing.JFrame {
                 .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(categoriesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(libraryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(620, Short.MAX_VALUE))
+                .addContainerGap(373, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(428, Short.MAX_VALUE)
                 .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(logoutButton, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(67, 67, 67))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminPanelLayout.createSequentialGroup()
-                        .addComponent(logoutButton)
-                        .addContainerGap())))
+                        .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(usernameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                            .addComponent(userRolLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         adminPanelLayout.setVerticalGroup(
             adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,7 +123,11 @@ public class mainView extends javax.swing.JFrame {
                 .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addGap(33, 33, 33)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(userRolLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
                 .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(profileButton)
                     .addComponent(libraryButton))
@@ -124,7 +135,7 @@ public class mainView extends javax.swing.JFrame {
                 .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(membersButton)
                     .addComponent(categoriesButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 412, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
                 .addComponent(logoutButton)
                 .addContainerGap())
         );
@@ -150,14 +161,21 @@ public class mainView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void profileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileButtonActionPerformed
-        // TODO add your handling code here:
+
+        
+        try {
+            VistaAdminVerPerfilUsuario viewPerfil = new VistaAdminVerPerfilUsuario((this.userLogged.getName()+" "+this.userLogged.getLastname()), 
+                                                                                        this.profileButton, 
+                                                                                            this.userLogged);
+            viewPerfil.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(mainView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_profileButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
-        this.dbconn.closeConnection();
-        userLogged = null;
-        this.dispose();
-        new login().setVisible(true);
+        closeSesion();
+
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void membersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_membersButtonActionPerformed
@@ -182,10 +200,12 @@ public class mainView extends javax.swing.JFrame {
     private javax.swing.JPanel adminPanel;
     private javax.swing.JButton categoriesButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JButton libraryButton;
     private javax.swing.JButton logoutButton;
     private javax.swing.JButton membersButton;
     private javax.swing.JButton profileButton;
+    private javax.swing.JLabel userRolLabel;
     private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables
 
@@ -195,6 +215,20 @@ public class mainView extends javax.swing.JFrame {
                 JOptionPane.YES_NO_OPTION);
         if (exitValue == JOptionPane.YES_OPTION) {
             System.exit(0);
+        } else {
+            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
+    }
+    
+    private void closeSesion() {
+        int exitValue = JOptionPane.showConfirmDialog(null,
+                "¿Está seguro de que desea cerrar la sesión?.", "Salir",
+                JOptionPane.YES_NO_OPTION);
+        if (exitValue == JOptionPane.YES_OPTION) {
+            this.dbconn.closeConnection();
+            userLogged = null;
+            this.dispose();
+            new login().setVisible(true);
         } else {
             setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         }
