@@ -33,12 +33,19 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
         
     } 
     
-    public VistaAdminVerPerfilUsuario(String name_lastname, JButton boton, User userLogged) throws SQLException {
+    /**
+     * 
+     * Contructor que nos permite controlar si éste ventana es llamada desde el 
+     * boton "Mi Perfil" de la ventana principal para el cual se tiene que 
+     * deshabilitar el boton "Ejercicios asignados",
+     * ó
+     * se llama desde la ventana del administrador para ver los perfiles de 
+     * todos los usuarios en el cual si debe de estar habilitado dicho boton
+     */
+    public VistaAdminVerPerfilUsuario(String name_lastname, JButton boton, String miPerfil) throws SQLException {
         this(name_lastname,boton);
+        this.ExcersButton.setVisible(false);
 
-         if (!userLogged.getRol().equals("Administrador")) {
-            this.ExcersButton.setVisible(false);
-        }
     }
     
     

@@ -166,7 +166,7 @@ public class mainView extends javax.swing.JFrame {
         try {
             VistaAdminVerPerfilUsuario viewPerfil = new VistaAdminVerPerfilUsuario((this.userLogged.getName()+" "+this.userLogged.getLastname()), 
                                                                                         this.profileButton, 
-                                                                                            this.userLogged);
+                                                                                            "");
             viewPerfil.setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(mainView.class.getName()).log(Level.SEVERE, null, ex);
