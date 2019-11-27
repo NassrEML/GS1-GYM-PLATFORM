@@ -13,8 +13,7 @@ public class VistaAdminCrearUsuarios extends javax.swing.JFrame {
     public VistaAdminCrearUsuarios(JButton boton) {
         initComponents();
         this.setResizable(false);
-
-        
+        this.setLocationRelativeTo(null); // Centrar pantalla 
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {

@@ -24,6 +24,7 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
 
         this.setResizable(false);
         this.allUsersList.setModel(userModel);
+        this.setLocationRelativeTo(null); // Centrar pantalla 
         showUsers();
 
         addWindowListener(new WindowAdapter() {

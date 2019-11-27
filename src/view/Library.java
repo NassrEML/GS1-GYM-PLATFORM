@@ -32,12 +32,14 @@ public class Library extends javax.swing.JFrame {
     public Library() throws SQLException {
         initComponents();
         this.setResizable(false);
+        this.setLocationRelativeTo(null); // Centrar pantalla 
         model = new DefaultListModel();
         exerciseList.setModel(model);
         exerciseList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         excerciseDescriptionArea.setEditable(false);
         excerciseDescriptionArea.setWrapStyleWord(true);
         loadList();
+        
 
         addWindowListener(new WindowAdapter() {
             @Override

@@ -21,6 +21,7 @@ public class login extends javax.swing.JFrame {
         dbconn = new DDBBConection();
         initComponents();
         this.setResizable(false);
+        this.setLocationRelativeTo(null); // Centrar pantalla 
 
         addWindowListener(new WindowAdapter() {
             @Override
