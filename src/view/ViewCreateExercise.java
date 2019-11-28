@@ -115,6 +115,12 @@ public class ViewCreateExercise extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void createExerciseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createExerciseButtonActionPerformed
+        if(title.getText().isEmpty() || description.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Aún hay campos por rellenar", "Error, faltan fatos", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        
         try {
             DDBBConection.addExercise(title.getText(), description.getText(), (String)category.getSelectedItem(), userLogged.getMail());
         } catch (SQLException ex) {

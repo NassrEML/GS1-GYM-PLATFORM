@@ -43,10 +43,14 @@ public class DDBBConectionTest {
         String lastname = "birola";
         int age = 44;
         String genre = "Masculino";
-        String mail = "prueba2@prueba.com";
+        String mail = "mail@mail.com";
         String rol = "Deportista";
         String password = "1234";
-        con.addUser(name, lastname, age, genre, mail, rol, password);
+        try {
+            DDBBConection.addUser(name, lastname, age, 0.0, 0.0, genre, mail, rol, password);
+        } catch (SQLException ex) {
+            Logger.getLogger(DDBBConectionTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         User u = con.getUserByMail(mail);
         assertEquals(name, u.getName());
         assertEquals(lastname, u.getLastname());
@@ -67,7 +71,7 @@ public class DDBBConectionTest {
         double weight = 82.5;
         double height = 1.8;
         String genre = "Masculino";
-        String mail = "prueba2@prueba.com";
+        String mail = "mail@mail.com";
         String rol = "Deportista";
         String password = "1234";
         con.addUser(name, lastname, age, weight, height, genre, mail, rol, password);
@@ -75,8 +79,8 @@ public class DDBBConectionTest {
         assertEquals(name, u.getName());
         assertEquals(lastname, u.getLastname());
         assertEquals(age, u.getAge());
-        assertEquals(weight, u.getWeight(), 0);
-        assertEquals(height, u.getHeight(), 0);
+        assertEquals(weight, u.getWeight(), 1);
+        assertEquals(height, u.getHeight(), 1);
         assertEquals(genre, u.getGenre());
         assertEquals(mail, u.getMail());
         assertEquals(rol, u.getRol());
@@ -92,7 +96,7 @@ public class DDBBConectionTest {
         int age = 44;
         double weight = 82.5;
         String genre = "Masculino";
-        String mail = "prueba2@prueba.com";
+        String mail = "mail@mail.com";
         String rol = "Deportista";
         String password = "1234";
         con.addUser(name, lastname, age, weight, 0.0, genre, mail, rol, password);
@@ -100,8 +104,8 @@ public class DDBBConectionTest {
         assertEquals(name, u.getName());
         assertEquals(lastname, u.getLastname());
         assertEquals(age, u.getAge());
-        assertEquals(weight, u.getWeight(), 0);
-        assertEquals(0.0f, u.getHeight(), 0);
+        assertEquals(weight, u.getWeight(), 1);
+        assertEquals(0.0f, u.getHeight(), 1);
         assertEquals(genre, u.getGenre());
         assertEquals(mail, u.getMail());
         assertEquals(rol, u.getRol());
@@ -117,7 +121,7 @@ public class DDBBConectionTest {
         int age = 44;
         double height = 1.8;
         String genre = "Masculino";
-        String mail = "prueba2@prueba.com";
+        String mail = "mail@mail.com";
         String rol = "Deportista";
         String password = "1234";
         con.addUser(name, lastname, age, 0.0, height, genre, mail, rol, password);
@@ -125,8 +129,8 @@ public class DDBBConectionTest {
         assertEquals(name, u.getName());
         assertEquals(lastname, u.getLastname());
         assertEquals(age, u.getAge());
-        assertEquals(0.0f, u.getWeight(), 0);
-        assertEquals(height, u.getHeight(), 0);
+        assertEquals(0.0f, u.getWeight(), 1);
+        assertEquals(height, u.getHeight(), 1);
         assertEquals(genre, u.getGenre());
         assertEquals(mail, u.getMail());
         assertEquals(rol, u.getRol());

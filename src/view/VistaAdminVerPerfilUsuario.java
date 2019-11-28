@@ -328,7 +328,7 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
         Statement stmt = DDBBConection.con.createStatement();
         String sql = "SELECT * FROM User WHERE Name='" + user_name + "' AND Lastname='" + user_lastname + "';" ;
         ResultSet rs = stmt.executeQuery(sql);
-
+        System.out.println("Hola mundo " + user_name + " " + user_lastname );
         while (rs.next()) {
 
             name.setText(rs.getString("Name"));
@@ -339,7 +339,10 @@ public class VistaAdminVerPerfilUsuario extends javax.swing.JFrame {
             height.setText(rs.getString("Height"));
             sex.setText(rs.getString("Genre"));
             email.setText(rs.getString("Mail"));
-            
+            System.out.println("adios mundo"+rs.getString("Name") + " " + rs.getString("Lastname") 
+                    + " " + rs.getString("Age") + " " + rs.getString("Rol") 
+                    + " " + rs.getString("Weight") + " " + rs.getString("Height") 
+                    + " " + rs.getString("Genre") + " " + rs.getString("Mail"));
             
         }
     }

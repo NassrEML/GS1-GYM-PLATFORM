@@ -75,6 +75,7 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
         showPerfilButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         createButton = new javax.swing.JButton();
+        refresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -99,6 +100,13 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
             }
         });
 
+        refresh.setText("Refrescar");
+        refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -112,11 +120,12 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(showPerfilButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(createButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(createButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(refresh)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(83, 83, 83)
                         .addComponent(jLabel1)))
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,7 +144,9 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
                         .addComponent(deleteButton)
                         .addGap(18, 18, 18)
                         .addComponent(createButton)
-                        .addGap(81, 81, 81))))
+                        .addGap(18, 18, 18)
+                        .addComponent(refresh)
+                        .addGap(40, 40, 40))))
         );
 
         pack();
@@ -181,6 +192,10 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
         vacu.setVisible(true);
     }//GEN-LAST:event_createButtonActionPerformed
 
+    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
+        showUsers();
+    }//GEN-LAST:event_refreshActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList allUsersList;
@@ -188,6 +203,7 @@ public class VistaAdminVerUsuarios extends javax.swing.JFrame {
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton refresh;
     private javax.swing.JButton showPerfilButton;
     // End of variables declaration//GEN-END:variables
 }

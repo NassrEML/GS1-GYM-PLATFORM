@@ -44,23 +44,6 @@ public class DDBBConection {
         }
     }
 
-    public void addUser(String name, String lastname, int age, String genre, String mail, String rol, String password) {
-        String sql = "INSERT INTO User(name, lastname, age, genre, mail, rol, passwordkey) VALUES (?,?,?,?,?,?,?)";
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, name);
-            ps.setString(2, lastname);
-            ps.setInt(3, age);
-            ps.setString(4, genre);
-            ps.setString(5, mail);
-            ps.setString(6, rol);
-            ps.setString(7, password);
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DDBBConection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     public static void addUser(String name, String lastname, int age, double weight, double height, String genre, String mail, String rol, String password) throws SQLException {
         String sql = "INSERT INTO User(name, lastname, age, weight, height, genre, mail, rol, passwordkey) VALUES (?,?,?,?,?,?,?,?,?)";
